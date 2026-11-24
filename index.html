@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>身体運動のメカニズム 2025過去問</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one centered question card under a sticky control bar; chips filter by lecture */
+:root{
+  --bg:#F3F5F7; --surface:#FFFFFF; --fg:#1B2430; --muted:#5F6B7A; --line:#D9DFE6;
+  --accent:#2D5B8A; --accent-soft:#E2EBF4;
+  --ok:#1F7A4D; --ok-soft:#E1F2E8; --ng:#B3372F; --ng-soft:#F8E3E1;
+  --font-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12171E; --surface:#1A212B; --fg:#E6EBF1; --muted:#9AA6B4; --line:#2C3644;
+  --accent:#7FA9D6; --accent-soft:#1F2D3D;
+  --ok:#5FC08E; --ok-soft:#173326; --ng:#F08A80; --ng-soft:#3A1F1D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171E; --surface:#1A212B; --fg:#E6EBF1; --muted:#9AA6B4; --line:#2C3644;
+  --accent:#7FA9D6; --accent-soft:#1F2D3D;
+  --ok:#5FC08E; --ok-soft:#173326; --ng:#F08A80; --ng-soft:#3A1F1D; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.75}
+.wrap{max-width:720px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+header h1{font-size:1.45rem;font-weight:900;margin:0;text-wrap:balance;letter-spacing:.02em}
+header p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+.panel{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.label{font-size:.75rem;color:var(--muted);letter-spacing:.08em;font-weight:700;min-width:4.5em}
+.chip,.seg button,.btn{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:5px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;border-radius:0;padding:6px 14px}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.btn:hover,.chip:hover{border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.status{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.85rem;color:var(--muted)}
+.bar{flex:1;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.tag{font-size:.75rem;font-weight:700;color:var(--accent);letter-spacing:.06em}
+.q{font-size:1.05rem;margin:0}
+.blank{display:inline-block;min-width:3.2em;text-align:center;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:700;padding:0 4px}
+.opts{display:grid;gap:8px}
+.opt{font:inherit;text-align:left;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);cursor:pointer;display:flex;gap:10px;align-items:baseline}
+.opt .k{font-family:var(--font-mono);color:var(--muted);font-size:.8rem}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--ng);background:var(--ng-soft)}
+.reveal{font:inherit;padding:12px;border:1px dashed var(--accent);border-radius:10px;background:var(--accent-soft);color:var(--accent);font-weight:700;cursor:pointer}
+.ans{border-left:3px solid var(--accent);padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:6px}
+.ans .verdict{font-weight:900}
+.ans .verdict.ok{color:var(--ok)} .ans .verdict.ng{color:var(--ng)}
+.ans .a{font-size:1.15rem;font-weight:900}
+.ans .ex{color:var(--muted);font-size:.92rem;margin:0}
+.self{display:flex;gap:8px;flex-wrap:wrap}
+.self .btn.ok{border-color:var(--ok);color:var(--ok)} .self .btn.ng{border-color:var(--ng);color:var(--ng)}
+.nav{display:flex;justify-content:space-between;gap:8px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface);font-weight:700;padding:8px 20px}
+.done{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.done .score{font-family:var(--font-mono);font-size:2.4rem;color:var(--accent)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>身体運動のメカニズム 2025過去問</h1>
+    <p>2025年度 中間テストの全70問。選択肢は本番と同じ並び順です。</p>
+  </header>
+
+  <section class="panel" aria-label="出題設定">
+    <div class="row"><span class="label">範囲</span><div class="row" id="chips"></div></div>
+    <div class="row"><span class="label">形式</span>
+      <div class="seg" role="group" aria-label="形式">
+        <button id="m-choice" aria-pressed="true">選択式（過去問形式）</button>
+        <button id="m-recall" aria-pressed="false">一問一答（答えを隠す）</button>
+      </div>
+    </div>
+    <div class="row"><span class="label">順番</span>
+      <div class="seg" role="group" aria-label="順番">
+        <button id="o-order" aria-pressed="true">本番の順</button>
+        <button id="o-shuffle" aria-pressed="false">ランダム</button>
+      </div>
+      <button class="btn" id="restart">最初から</button>
+    </div>
+  </section>
+
+  <div class="status"><span id="pos" class="num">1 / 1</span><div class="bar"><span id="barfill"></span></div><span id="score" class="num">正解 0</span></div>
+
+  <main class="card" id="card" aria-live="polite"></main>
+</div>
+
+<script>
+const CH = ["骨・筋・関節","筋の仕組み","筋腱複合体","神経系","反射","体力・加齢","発育発達","トレーニング","サービス問題"];
+// [章, 問題文, 正解, 選択肢（本番の並び順）, 解説]
+const Q = [
+["トレーニング","一般的なトレーニングの原則は5つあり、”目的を明確にしてトレーニングを実施すること”を【①】の原則と呼ぶ。①に該当する名称を答えよ。","意識性",["意識性","個別性","全面性","反復性","漸進性"],"5原則：意識性（目的を明確に）・個別性（自分のレベルに合わせて）・反復性（継続して）・漸進性（徐々に負荷を高めて）・全面性（バランスよく）。"],
+["体力・加齢","我々は歳を取ると体力要素が低下する。特に、加齢による影響を大きく受けるのは新体力テストで評価される体力要素のうち【①】である。【①】は長い時間動き続けるために必要な体力であり、長い時間動き続けるためにはエネルギー源の一つである脂質の代謝能力を高める必要がある。①に該当する名称を答えよ。","全身持久力",["筋持久力","全身持久力","走力","敏捷性"],"全身持久力の指標が酸素摂取量（最大酸素摂取量）。脂質を利用してエネルギーを作り出す能力を表す。"],
+["神経系","身体運動の直接的な原動力は骨格筋の収縮であるが、その背景には複雑な神経系が関与している。そのため、神経系の理解は運動を理解するために必要である。その中で、神経系は脳や脊髄の【①】、体性神経系と自律神経系の【②】から成る。①に該当する名称を答えよ。","中枢神経系",["中枢神経系","末梢神経系","迷路神経系","反射神経系"],"脳・脊髄＝中枢神経系、体性神経系・自律神経系＝末梢神経系。"],
+["骨・筋・関節","全身には筋が600以上もあるとされる。そのうち、下腿部（膝から足首まで）に筋腹をもつ筋を答えよ。","腓腹筋",["大腿直筋","腓腹筋","腹直筋","カレイ筋"],"腓腹筋はふくらはぎの表層の筋。大腿直筋は大腿部、腹直筋は腹部。"],
+["骨・筋・関節","関節運動の主な働きを担う筋を【①】と呼ぶ。①に入る名称を答えよ。","主動筋",["拮抗筋","主動筋","自動筋","実働筋"],"主動筋が短縮することで引き伸ばされる筋が拮抗筋。例：肘を曲げるとき、上腕二頭筋が主動筋、上腕三頭筋が拮抗筋。"],
+["体力・加齢","体力を大きく分類すると、環境に働きかけて積極的によりよく生きてゆくために必要な体力である【①】と、生存のために最小限必要な体力である生存力の２つに分けることができる。さらに【①】を細かく分類したうち、筋活動によって発揮されるエネルギーの大きさを決める能力を【②】と呼ぶ。②に該当する名称を答えよ。","エネルギー的体力",["サイバネテックス的体力","エナジェティクス的体力","エネルギー的体力","運動能力"],"行動力は、エネルギーの大きさを決める「エネルギー的体力」と、エネルギーの使い方を調整する「サイバネテックス的体力」に分けられる。"],
+["筋の仕組み","ミオシンとアクチンの重なり具合によって、筋線維で発揮される力は変化する。特に、適度なミオシンとアクチンが重なり合った状態にあり、相対的に大きな力を発揮できる筋線維の長さの範囲を【①】と呼ぶ。①に該当する名称を答えよ。","至適長",["私的長","快適長","至適長","幸福長"],"筋が短すぎても長すぎても発揮できる力は小さくなる（長さ－張力関係）。"],
+["トレーニング","一般的なトレーニングの原則は5つあり、そのうちの一つで、”徐々に負荷を高めてトレーニングを実施する”ことを【①】の原則と呼ぶ。①に該当する名称を答えよ。","漸進性",["意識性","個別性","全面性","反復性","漸進性"],"漸進性＝徐々に負荷を高める。過負荷の原理（原理）と混同しないように。"],
+["体力・加齢","脂質を代謝する際には酸素を体内に取り込む必要があり、単位時間あたりに体内へ取り込んだ酸素の量を【①】と呼ぶ。①に該当する名称を答えよ。","酸素摂取量",["酸素消費量","酸素取込量","酸素摂取量","酸素吸引量"],"V̇O₂。その最大値が最大酸素摂取量で、全身持久力の指標になる。"],
+["発育発達","スキャモンの発育曲線は、成人時の器官の体積に対する臓器の相対値を示している。そのうち、生殖器、乳房、咽頭などが発育する過程は【①】と呼ばれる。①に該当する名称を答えよ。","生殖型",["生殖型","リンパ型","神経型","一般型"],"思春期に急激に発育する。スキャモンの4型：一般型・神経型・リンパ型・生殖型。"],
+["発育発達","スキャモンの発育曲線は、成人時の器官の体積に対する臓器の相対値を示している。そのうち、身長や体重、筋肉などが発育する過程は【①】と呼ばれる。①に該当する名称を答えよ。","一般型",["リンパ型","一般型","神経型","生殖型"],"乳幼児期と思春期の2回、大きく伸びるS字型の曲線。"],
+["発育発達","発育の過程において身長の急激な伸びによって、一時的に動作習得が停滞する時期を【①】と呼ぶ。①に該当する名称を答えよ。","クラムジー",["スランプ","トランプ","クラムジー","クランプ"],"身長が急に伸びるPHV（最大発育速度）の時期に起こりやすい。"],
+["筋腱複合体","腱の硬さを評価する指標であり、腱の伸張量あたりに作用する力を【①】と呼ぶ。①に該当する名称を答えよ。","スティフネス",["スティフネス","コンプライアンス","ガバナンス","コミットメント"],"スティフネス＝力÷伸張量（硬さ）。逆数のコンプライアンス＝伸張量÷力（柔らかさ）。"],
+["筋腱複合体","筋腱が収縮する前に一度伸張し、伸張から短縮に素早く切り替わることで、短縮よりも大きな力を出すことができる運動様式を【①】と呼ぶ。①に該当する名称を答えよ。","伸張-短縮サイクル",["垂直跳び","ばね作用","PDCAサイクル","伸張-短縮サイクル"],"SSC（Stretch-Shortening Cycle）。腱の弾性エネルギーや伸張反射を利用する。"],
+["骨・筋・関節","短く数の多い筋線維が鳥の羽のように斜めに走行する形状をした筋を【①】と呼ぶ。①に該当する名称を答えよ。","羽状筋",["羽状筋","紡錘状筋","鋸筋","多裂筋"],"紡錘状筋＝最も筋らしい基本形。鋸筋＝起始がのこぎりの歯のように広がる。"],
+["反射","身体は随意的にだけではなく、反射的にも運動する。その代表例に膝蓋腱反射がある。膝蓋腱反射では、膝蓋腱を強く叩くことによって大腿四頭筋が強制的に伸張される。この筋の伸張を大腿四頭筋に内包されるセンサーで筋の伸長を感知し、Ia線維を通して電位が脊髄へ伝達することで大腿四頭筋を収縮させ、筋の損傷を防ぐ機能を持つ。また、大腿四頭筋の収縮によって膝関節の伸展を滞りなく行うためには、膝関節屈曲筋群の大腿二頭筋に代表される大腿部後面の筋群を弛緩させることが必要である。このように、大腿前部の伸長を感知するセンサーから伝わった電位が抑制性の介在ニューロンを経て、大腿後部の筋を弛緩させる反応を【①】と呼ぶ。①に該当する名称を答えよ。","相反神経支配",["相反神経支配","双方神経支配","相互神経支配","逆神経支配"],"主動筋が収縮するとき、抑制性介在ニューロンを介して拮抗筋を弛緩させるしくみ。"],
+["神経系","筋の収縮は、脳や脊髄からα運動ニューロンを通して電位が筋線維に伝播することで生じる。この際、1秒間におけるニューロンの発火回数を【①】と呼ぶ。①に該当する名称を答えよ。","発火頻度",["伝播頻度","発火速度","発火頻度","発火スピード"],"発火頻度が高いほど大きな力を発揮できる。力の調節は、動員する運動単位の数と発火頻度で行う。"],
+["筋腱複合体","実際には、筋は骨に付着しているわけではなく、腱が付着している。この筋と腱の総体を【①】と呼ぶ。①に該当する名称を答えよ。","筋腱複合体",["筋腱混合体","筋腱移行部","筋腱複合体","筋腱接合部"],"MTC（Muscle-Tendon Complex）。"],
+["骨・筋・関節","筋が収縮することで関節周りに骨を回転させるためには、筋が関節をまたいで骨に付着しなければならない。特に、からだの中心から遠い側の付着部を【①】と呼ぶ。①に該当する名称を答えよ。","停止",["停止","起始","指揮","留筋"],"中心に近い側＝起始、遠い側＝停止。"],
+["筋の仕組み","筋は閾値より小さな刺激には反応せず、閾値以上の刺激に最大収縮する法則がある。この法則を【①】と呼ぶ。①に該当する名称を答えよ。","全か無かの法則",["1か0かの法則","有か無かの法則","100か0かの法則","全か無かの法則"],"単一の筋線維（運動単位）は、収縮するかしないかのどちらかになる。"],
+["骨・筋・関節","筋が収縮することで関節周りに骨を回転させるためには、筋が関節をまたいで骨に付着しなければならない。特に、からだの中心に近い側の付着部を【①】と呼ぶ。①に該当する名称を答えよ。","起始",["停止","留筋","指揮","起始"],"起始に近い方の筋の部分が筋頭、停止に近い方が筋尾。"],
+["骨・筋・関節","骨格のうち、下腿部（膝から足首まで）は脛骨と【①】の2つ骨から構成されている。①に該当する骨の名称を答えよ。","腓骨",["膝蓋骨","頭蓋骨","大腿骨","腓骨"],"脛骨が内側（太い骨）、腓骨が外側（細い骨）。"],
+["筋の仕組み","筋が力を発揮しながらも筋の長さが変わらない場合の筋の収縮様式を【①】と呼ぶ。①に該当する名称を答えよ。","等尺性収縮",["短縮性収縮","等尺性収縮","伸張性収縮","等速性収縮"],"アイソメトリック収縮。力の向きと収縮の向きが同じ＝短縮性、逆＝伸張性。"],
+["反射","身体は随意的にだけではなく、反射的にも運動する。その代表例に膝蓋腱反射がある。膝蓋腱反射では、膝蓋腱を強く叩くことによって大腿四頭筋が強制的に伸張される。この筋の伸張を【①】で感知し、Ia線維を通して電位が脊髄へ伝達することで大腿四頭筋を収縮させ、筋の損傷を防ぐ機能を持つ。①に該当する名称を答えよ。","筋紡錘",["紡錘筋","筋センサー","伸張受容器","筋紡錘"],"筋紡錘は骨格筋に内包される感覚受容器で、筋の長さの変化を感知する。腱にあるゴルジ腱器官と区別する。"],
+["神経系","筋の収縮は複数の単一筋線維が同時に収縮することで生じる。この際、一つの神経によって支配される筋線維の数を【①】と呼ぶ。①に該当する名称を答えよ。","神経支配比",["運動単位数","運動支配比","神経支配比","運動モジュール比"],"神経支配比が小さい筋（目や指の筋）ほど細かい動きができ、大きい筋（大腿の筋など）は大きな力を出す。"],
+["筋の仕組み","筋の収縮は脳や脊髄からα運動ニューロンを通して、電位が【①】に伝播することで生じる。①に該当する組織を答えよ。","単一筋線維",["筋原線維","単一筋線維","筋線維束","筋束"],"筋→筋線維束→単一筋線維→筋原線維の順に細かくなる。"],
+["骨・筋・関節","全身には206個の骨があるとされ、各部位の骨は頭蓋骨・脊柱・上肢骨・【①】に大きく分けることができる。①に該当する名称を答えよ。","下肢骨",["下肢骨","下腿骨","脚骨","下半身骨"],"骨格は頭蓋骨・脊柱・上肢骨・下肢骨に分けられる。"],
+["神経系","身体運動の直接的な原動力は骨格筋の収縮であるが、その背景には複雑な神経系が関与している。そのため、神経系の理解は運動を理解するために必要である。その中で、神経系は脳や脊髄の【①】、体性神経系と自律神経系の【②】から成る。②に該当する名称を答えよ。","末梢神経系",["中枢神経系","末梢神経系","迷路神経系","反射神経系"],"末梢神経系は体性神経系（運動・感覚）と自律神経系（交感・副交感）からなる。"],
+["神経系","筋は小さな運動単位から順に動員する特性があり、この特性を【①】と呼ぶ。①に該当する名称を答えよ。","サイズの原理",["サイズの原理","大きさの原理","順番の原理","優位性の原理"],"ヘネマンのサイズの原理。小さな力では遅筋線維中心の小さな運動単位から使われる。"],
+["骨・筋・関節","骨格のうち、前腕部（肘から手首まで）は尺骨と【①】の2つ骨から構成されている。①に該当する骨の名称を答えよ。","橈骨",["上腕骨","舟状骨","橈骨","肩甲骨"],"親指側が橈骨、小指側が尺骨。"],
+["体力・加齢","体力を大きく分類すると、環境に働きかけて積極的によりよく生きてゆくために必要な体力である【①】と、生存のために最小限必要な体力である生存力の２つに分けることができる。さらに【①】を細かく分類したうち、生成したエネルギーの使い方を調整する能力を【②】と呼ぶ。②に該当する名称を答えよ。","サイバネテックス的体力",["エネルギー的体力","サイバネテックス的体力","エナジェティクス的体力","運動能力"],"調整力（巧みさ）に当たる。エネルギーの大きさを決める能力はエネルギー的体力。"],
+["トレーニング","トレーニングを行うと疲労状態に陥り、一時的に身体構造および機能が低下する。ただ、疲労状態の後に適切な休息を取ることで身体は回復状態に入り、身体構造および機能が向上する。このように、疲労および回復状態を適切にコントロールすることで、トレーニング前の体力レベルと比べて休息後の体力レベルは高くなる。この様な効果を【①】と呼ぶ。①に該当する名称を答えよ。","超回復",["跳回復","超回復","積極的回復","中回復"],"疲労→回復→超回復。過負荷の原理とセットで出る。"],
+["発育発達","人が成長する過程で、形態・器官・細胞などの身体を構成する要素の大きさが増大する/伸びることを【①】と呼ぶ。①に該当する名称を答えよ。","発育",["発達","生育","教育","発育"],"大きさの変化＝発育、機能の変化＝発達。"],
+["筋の仕組み","筋線維にはタイプが存在し、収縮力が小さいものの疲労耐性が高い特性を持つ筋線維を【①】と呼ぶ。①に該当する名称を答えよ。","遅筋線維",["遅筋線維","速筋線維","脳筋線維","頭巾線維"],"遅筋＝収縮力小・疲れにくい、速筋＝収縮力大・疲れやすい。"],
+["筋の仕組み","筋が発揮する力の向きと収縮する向きが逆である場合の筋の収縮様式を【①】と呼ぶ。①に該当する名称を答えよ。","伸張性収縮",["伸張性収縮","短縮性収縮","等尺性収縮","等速性収縮"],"エキセントリック収縮。筋が引き伸ばされながら力を出す（例：階段を下りるときの大腿四頭筋）。"],
+["トレーニング","トレーニングには3つの原理がある。そのうちの一つで、“継続的にシステムを動員しなければ、トレーニングの効果は失われる”という原理を【①】の原理と呼ぶ。①に該当する名称を答えよ。","可逆性",["過負荷","特異性","可逆性","コンディショニング"],"3原理：過負荷（慣れより高い負荷に適応）・特異性（動員したシステムにだけ効果）・可逆性（続けないと効果が消える）。"],
+["骨・筋・関節","関節運動によって引き伸ばされる筋を【①】と呼ぶ。①に入る名称を答えよ。","拮抗筋",["主動筋","自動筋","拮抗筋","受動筋"],"2025年の受験者が間違えた唯一の問題（受動筋を選択）。主動筋が短縮することで引き伸ばされるのが拮抗筋。"],
+["骨・筋・関節","地球の重力に対して姿勢を保持するために働く筋肉を【①】と呼ぶ。①に該当する名称を答えよ。","抗重力筋",["反重力筋","抗重力筋","アンチ重力筋","耐重力筋"],"脊柱起立筋、大殿筋、大腿四頭筋、下腿三頭筋など。加齢で衰えやすい。"],
+["発育発達","人が成長する過程で、身体機能が発生・分化・増大・伸びることを【①】と呼ぶ。①に該当する名称を答えよ。","発達",["発達","発育","生育","教育"],"機能の変化＝発達。大きさの変化（発育）と対で覚える。"],
+["トレーニング","一般的なトレーニングの原則は5つあり、そのうちの一つで、”バランスよくトレーニングを実施する”ことを【①】の原則と呼ぶ。①に該当する名称を答えよ。","全面性",["意識性","個別性","全面性","反復性","漸進性"],"全面性＝バランスよく。"],
+["骨・筋・関節","全身には筋が600以上もあるとされる。そのうち、大腿部（脚の付け根から膝まで）に筋腹をもつ筋を答えよ。","大腿四頭筋",["前側広筋","大腿四頭筋","左側広筋","右側広筋"],"大腿四頭筋は大腿直筋・外側広筋・内側広筋・中間広筋の4つ。"],
+["サービス問題","【サービス問題】身体運動のメカニズムを担当する非常勤講師の出身都道府県は？","岡山県",["沖縄県","茨城県","岡山県","東京都"],"2025年の試験で出題されたサービス問題。"],
+["トレーニング","一般的なトレーニングの原則は5つあり、そのうちの一つで、”継続してトレーニングを実施する”ことを【①】の原則と呼ぶ。①に該当する名称を答えよ。","反復性",["意識性","個別性","全面性","反復性","漸進性"],"反復性＝継続して。"],
+["発育発達","第2次性徴で起こる身長の伸びが最大になる時期を【①】と呼ぶ。①に該当する名称を答えよ。","最大発育速度",["最大発達速度","最大発育速度","最大生育速度","最大増大速度"],"PHV（Peak Height Velocity）。身長＝大きさの変化なので「発育」。"],
+["サービス問題","【サービス問題】身体運動のメカニズムを担当する非常勤講師の氏名は？","景行崇文",["景之崇文","景行崇文","景行崇之","影行崇文"],"2025年の試験で出題されたサービス問題。"],
+["筋の仕組み","筋が発揮する力の向きと収縮する向きが同じである場合の筋の収縮様式を【①】と呼ぶ。①に該当する名称を答えよ。","短縮性収縮",["等尺性収縮","伸張性収縮","等速性収縮","短縮性収縮"],"コンセントリック収縮。筋が短くなりながら力を出す。"],
+["トレーニング","トレーニングには、3つの原理がある。そのうちの一つで、“動員されたシステムにだけトレーニングの効果が表れる”という原理を【①】の原理と呼ぶ。①に該当する名称を答えよ。","特異性",["過負荷","特異性","可逆性","コンディショニング"],"特異性の原理。鍛えた部位・能力にだけ効果が出る。"],
+["トレーニング","一般的なトレーニングの原則は5つあり、そのうちの一つで、”自身のレベルに合ったトレーニングを実施する”ことを【①】の原則と呼ぶ。①に該当する名称を答えよ。","個別性",["意識性","個別性","全面性","反復性","漸進性"],"個別性＝自分のレベルに合わせて。"],
+["反射","骨格筋と腱の移行部にある感覚受容器で、腱の伸張を受容すると、α運動ニューロンを抑制して、主動筋を弛緩させると同時に拮抗筋が収縮させる受容器を【①】と呼ぶ。①に該当する名称を答えよ。","ゴルジ腱器官",["ゴルジ筋腱複合体器官","腱伸張受容器","ゴルジ腱器官","サウジ腱器官"],"筋の損傷を防ぐこの反応がゴルジ腱反射。筋紡錘（筋の中・伸張反射）と区別する。"],
+["骨・筋・関節","身体を支えるために必要な床面積及びその範囲を【①】と呼ぶ。①に該当する名称を答えよ。","支持基底面",["立位保持面","支持基底面","姿勢維持面","支持可能面"],"立って静止するには、身体重心を支持基底面の中に入れる必要がある。"],
+["反射","筋（錘外筋）が収縮すると筋の伸長を感知するセンサー内の筋（錘内筋）も弛緩することから、錘外筋の収縮に合わせて錘内筋を伸張してセンサーが受容する感度を保つ必要がある。このように、α運動ニューロンと錘内筋の長さの調整に寄与するγ運動ニューロンが関連して作用することを【①】と呼ぶ。①に該当する名称を答えよ。","α－γ連関",["α－γ関係","α－γ連関","α－γ効果","α－γ効能"],"γ運動ニューロンが錘内筋を収縮させ、筋紡錘の感度を保つ。"],
+["筋腱複合体","腱の柔らかさを評価する指標であり、作用した力あたりの腱の伸張量を【①】と呼ぶ。①に該当する名称を答えよ。","コンプライアンス",["スティフネス","ガバナンス","コンプライアンス","コミットメント"],"コンプライアンス＝伸張量÷力（柔らかさ）。スティフネスの逆数。"],
+["骨・筋・関節","またぐ関節が一つの筋を単関節筋と呼び、またぐ関節が複数の筋を【①】と呼ぶ。①に該当する名称を答えよ。","多関節筋",["複関節筋","又関節筋","雑関節筋","多関節筋"],"2つの関節をまたぐ筋は二関節筋（例：大腿直筋、ハムストリングス）。"],
+["筋の仕組み","筋線維にはタイプが存在し、収縮力が大きいものの疲労耐性が低い特性を持つ筋線維を【①】と呼ぶ。①に該当する名称を答えよ。","速筋線維",["遅筋線維","脳筋線維","頭巾線維","速筋線維"],"速筋＝収縮力大・疲れやすい。"],
+["筋の仕組み","筋の太さを評価する指標のうち、筋の長軸に対して垂直に横断した面積を【①】と呼ぶ。①に該当する名称を答えよ。","解剖学的横断面積",["生理学的横断面積","投影面積","力学的横断面積","解剖学的横断面積"],"筋の長軸に垂直＝解剖学的、筋線維の走行方向に垂直＝生理学的。"],
+["発育発達","スキャモンの発育曲線は、成人時の器官の体積に対する臓器の相対値を示している。そのうち、神経系や感覚器系が発育する過程は【①】と呼ばれる。①に該当する名称を答えよ。","神経型",["リンパ型","一般型","生殖型","神経型"],"幼児期に急激に発育し、12歳ごろにはほぼ成人並みになる。"],
+["筋の仕組み","筋の太さを評価する指標のうち、筋線維の走行方向に対して垂直に横断した面積を【①】と呼ぶ。①に該当する名称を答えよ。","生理学的横断面積",["投影面積","解剖学的横断面積","生理学的横断面積","力学的横断面積"],"羽状筋では解剖学的横断面積より大きくなり、発揮できる力と関係が深い。"],
+["筋腱複合体","運動して数時間から数日後に生じる筋肉痛であり、一般的な筋肉痛を【①】と呼ぶ。①に該当する名称を答えよ。","遅発性筋肉痛",["遅発性筋肉痛","即発性筋肉痛","続発性筋肉痛","継続的筋肉痛"],"伸張性収縮を多く含む運動の後に起こりやすい。"],
+["骨・筋・関節","肩関節や股関節に代表され、関節の突き出した面が球状で前後左右以外に回転もできることから、可能性が大きい関節を【①】と呼ぶ。①に該当する名称を答えよ。","球関節",["球関節","車軸関節","蝶番関節","楕円関節"],"車軸関節＝回転のみ（上橈尺関節など）、蝶番関節＝1方向のみ。"],
+["トレーニング","トレーニングには、3つの原理がある。そのうちの一つで、“現状で慣れているレベルよりも、高い負荷に身体は適応する”という原理を【①】の原理と呼ぶ。①に該当する名称を答えよ。","過負荷",["過負荷","特異性","可逆性","コンディショニング"],"過負荷の原理。"],
+["骨・筋・関節","骨格筋の各部の名称のうち、からだの中心から近い方の部位を【①】と呼ぶ。①に該当する名称を答えよ。","筋頭",["筋頭","筋腹","筋尾","筋脚"],"筋頭＝起始に近い方、筋腹＝中央部、筋尾＝停止に近い方。"],
+["神経系","筋の収縮は複数の単一筋線維が同時に収縮することで生じる。このように一つの神経で支配されている筋線維群のことを【①】と呼ぶ。①に該当する名称を答えよ。","運動単位",["運動単位","運動支配","神経支配","運動モジュール"],"1つのα運動ニューロンと、それが支配する筋線維群のまとまり。"],
+["筋の仕組み","アクチンとミオシンなどから構成され、筋肉が収縮する仕組みの最小単位となる構造を【①】と呼ぶ。①に該当する名称を答えよ。","サルコメア",["サルコメア","ミトコンドリア","ミートドリア","フレア"],"筋節。アクチンとミオシンの重なり具合で発揮できる力が変わる。"],
+["体力・加齢","体力を大きく分類すると、環境に働きかけて積極的によりよく生きてゆくために必要な体力である【①】と、生存のために最小限必要な体力である生存力の２つに分けることができる。①に該当する名称を答えよ。","行動力",["共感力","即戦力","実行力","行動力"],"体力＝行動力＋生存力。行動力はエネルギー的体力とサイバネテックス的体力に分かれる。"],
+["骨・筋・関節","骨格のうち、前腕部（肘から手首まで）は橈骨と【①】の2つ骨から構成されている。①に該当する骨の名称を答えよ。","尺骨",["舟状骨","尺骨","上腕骨","肩甲骨"],"小指側が尺骨。"],
+["骨・筋・関節","関節とは、複数の骨がお互いに連結する部分のことであり、関節を形成する骨のうち、突き出した面を【①】と呼ぶ。①に該当する名称を答えよ。","関節頭",["関節窩","関節頭","関節突起","関節窪"],"突き出した面＝関節頭、くぼんだ面＝関節窩。"],
+["発育発達","スキャモンの発育曲線は、成人時の器官の体積に対する臓器の相対値を示している。そのうち、リンパ組織（免疫系）が発育する過程は【①】と呼ばれる。①に該当する名称を答えよ。","リンパ型",["神経型","一般型","リンパ型","生殖型"],"思春期前に成人の約2倍に達し、その後減少する。"],
+["体力・加齢","循環器疾患の危険因子が一個人に複数集積し、循環器疾患を発症する危険性が高まっている状態をメタボリックシンドロームと呼ぶ。それに対し、運動器症候群とも呼ばれ、運動器の障害のために要介護になっていたり要介護になったりと危険の高い状態を【①】と呼ぶ。①に該当する名称を答えよ。","ロコモティブシンドローム",["エンドロール","ロコソラーレ","ロコモーション","ロコモティブシンドローム"],"略してロコモ。"],
+["骨・筋・関節","短く数の多い筋線維が鳥の羽のように斜めに走行する形状をした筋である【①】が持ち、筋の作用軸（長軸）と筋線維の走行とがなす角度を【②】と呼ぶ。②に該当する名称を答えよ。","羽状角",["羽角","羽状角","入射角","放射角"],"①は羽状筋。羽状角が大きいほど、同じ体積に多くの筋線維を詰め込める。"],
+["骨・筋・関節","関節とは、複数の骨がお互いに連結する部分のことであり、関節を形成する骨のうち、くぼんだ面を【①】と呼ぶ。①に該当する名称を答えよ。","関節窩",["関節頭","関節突起","関節窩","関節起"],"くぼんだ面＝関節窩。"],
+];
+
+const st={chapters:new Set(CH),mode:"choice",shuffle:false,list:[],i:0,correct:0,answered:false};
+const $=s=>document.querySelector(s);
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+function buildChips(){
+  const box=$("#chips");box.innerHTML="";
+  const all=document.createElement("button");all.className="chip";all.textContent="すべて";
+  all.setAttribute("aria-pressed",st.chapters.size===CH.length);
+  all.onclick=()=>{st.chapters=new Set(CH);start()};box.append(all);
+  CH.forEach(c=>{const n=Q.filter(q=>q[0]===c).length;const b=document.createElement("button");b.className="chip";
+    b.textContent=`${c}（${n}）`;b.setAttribute("aria-pressed",st.chapters.size<CH.length&&st.chapters.has(c));
+    b.onclick=()=>{if(st.chapters.size===CH.length)st.chapters=new Set([c]);else if(st.chapters.has(c)){st.chapters.delete(c);if(!st.chapters.size)st.chapters=new Set(CH)}else st.chapters.add(c);start()};
+    box.append(b)});
+}
+function start(list){
+  buildChips();
+  let l=list||Q.filter(q=>st.chapters.has(q[0]));
+  if(st.shuffle)l=shuf(l);
+  st.list=l.map(q=>({q,opts:q[3],res:null}));st.i=0;st.correct=0;render();
+}
+function status(){
+  $("#pos").textContent=`${Math.min(st.i+1,st.list.length)} / ${st.list.length}`;
+  $("#score").textContent=`正解 ${st.correct}`;
+  $("#barfill").style.width=`${st.i/st.list.length*100}%`;
+}
+function render(){
+  status();const card=$("#card");
+  if(st.i>=st.list.length){return finish()}
+  const it=st.list[st.i],[ch,text,ans,,ex]=it.q;
+  const qhtml=esc(text).replace(/【([①②])】/g,'<span class="blank">$1</span>');
+  card.innerHTML=`<div class="tag">${ch}</div><p class="q">${qhtml}</p><div id="body"></div><div id="after"></div>`;
+  const body=$("#body");
+  if(st.mode==="choice"){
+    body.className="opts";
+    it.opts.forEach((o,k)=>{const b=document.createElement("button");b.className="opt";
+      b.innerHTML=`<span class="k">${"ABCDEF"[k]}</span><span>${esc(o)}</span>`;
+      b.onclick=()=>{const ok=o===ans;it.res=ok;if(ok)st.correct++;
+        body.querySelectorAll(".opt").forEach((x,j)=>{x.disabled=true;if(it.opts[j]===ans)x.classList.add("right");else if(x===b)x.classList.add("wrong")});
+        showAnswer(ok);};
+      body.append(b)});
+  }else{
+    const r=document.createElement("button");r.className="reveal";r.textContent="答えを見る";
+    r.onclick=()=>{r.remove();showAnswer(null)};body.append(r);
+  }
+  function showAnswer(ok){
+    const a=$("#after");
+    const v=ok===null?"":`<div class="verdict ${ok?"ok":"ng"}">${ok?"正解":"不正解"}</div>`;
+    a.innerHTML=`<div class="ans">${v}<div class="a">${esc(ans)}</div><p class="ex">${esc(ex)}</p></div>`;
+    if(ok===null){
+      const s=document.createElement("div");s.className="self";
+      s.innerHTML=`<button class="btn ok">わかった</button><button class="btn ng">わからなかった</button>`;
+      const [y,n]=s.querySelectorAll("button");
+      y.onclick=()=>{it.res=true;st.correct++;next()};n.onclick=()=>{it.res=false;next()};
+      a.append(s);
+    }else{
+      const nav=document.createElement("div");nav.className="nav";
+      nav.innerHTML=`<span></span><button class="btn primary">次へ</button>`;
+      nav.querySelector("button").onclick=next;a.append(nav);nav.querySelector("button").focus();
+    }
+    status();
+  }
+}
+function next(){st.i++;render()}
+function finish(){
+  const wrong=st.list.filter(x=>x.res===false).map(x=>x.q);
+  const card=$("#card");
+  card.innerHTML=`<div class="done"><div class="tag">結果</div><div class="score">${st.correct} / ${st.list.length}</div>
+    <p style="margin:0;color:var(--muted)">${wrong.length?`間違えた問題が${wrong.length}問あります。`:"全問正解です。"}</p>
+    <div class="row" style="justify-content:center">${wrong.length?'<button class="btn primary" id="retry">間違えた問題だけ解き直す</button>':""}<button class="btn" id="again">もう一度</button></div></div>`;
+  $("#barfill").style.width="100%";
+  if(wrong.length)$("#retry").onclick=()=>start(wrong);
+  $("#again").onclick=()=>start();
+}
+function seg(a,b,on){$(a).setAttribute("aria-pressed",on);$(b).setAttribute("aria-pressed",!on)}
+$("#m-choice").onclick=()=>{st.mode="choice";seg("#m-choice","#m-recall",true);start()};
+$("#m-recall").onclick=()=>{st.mode="recall";seg("#m-choice","#m-recall",false);start()};
+$("#o-order").onclick=()=>{st.shuffle=false;seg("#o-order","#o-shuffle",true);start()};
+$("#o-shuffle").onclick=()=>{st.shuffle=true;seg("#o-order","#o-shuffle",false);start()};
+$("#restart").onclick=()=>start();
+start();
+</script>
+</body>
+</html>
